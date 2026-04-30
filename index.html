@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Andrew Weng — Senior Software Engineer</title>
+<meta name="description" content="Andrew Weng is a senior software engineer specializing in Python and ML infrastructure. Lead engineer for the DataEval ecosystem at ARiA." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --bg-elev: #12121a;
+    --bg-card: rgba(255, 255, 255, 0.03);
+    --border: rgba(255, 255, 255, 0.08);
+    --border-strong: rgba(255, 255, 255, 0.16);
+    --text: #e8e8ed;
+    --text-muted: #9a9aa8;
+    --text-dim: #6b6b7a;
+    --accent: #7c8cff;
+    --accent-2: #a07cff;
+    --accent-3: #5fc3e4;
+    --gradient-1: linear-gradient(135deg, #7c8cff 0%, #a07cff 50%, #ff7cb8 100%);
+    --gradient-2: linear-gradient(135deg, #5fc3e4 0%, #7c8cff 100%);
+    --gradient-bg: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(124, 140, 255, 0.18), transparent),
+                   radial-gradient(ellipse 60% 50% at 80% 30%, rgba(160, 124, 255, 0.12), transparent),
+                   radial-gradient(ellipse 60% 50% at 20% 60%, rgba(95, 195, 228, 0.08), transparent);
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-sans);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: var(--gradient-bg);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Nav */
+  nav {
+    position: sticky;
+    top: 0;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: rgba(10, 10, 15, 0.7);
+    border-bottom: 1px solid var(--border);
+    z-index: 100;
+    padding: 16px 0;
+  }
+  nav .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .nav-logo {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    text-decoration: none;
+    letter-spacing: -0.02em;
+  }
+  .nav-logo .accent {
+    background: var(--gradient-1);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+  }
+  .nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+
+  /* Hero */
+  .hero {
+    padding: 100px 0 80px;
+  }
+  .hero h1 {
+    font-size: clamp(2.4rem, 6vw, 3.8rem);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 24px;
+    opacity: 0;
+    transform: translateY(12px);
+    animation: fadeUp 0.7s ease-out 0.1s forwards;
+  }
+  .hero h1 .gradient {
+    background: var(--gradient-1);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero .tagline {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    max-width: 620px;
+    margin-bottom: 36px;
+    line-height: 1.6;
+    opacity: 0;
+    transform: translateY(12px);
+    animation: fadeUp 0.7s ease-out 0.2s forwards;
+  }
+  .hero-meta {
+    display: flex;
+    gap: 24px;
+    font-size: 14px;
+    color: var(--text-dim);
+    flex-wrap: wrap;
+    opacity: 0;
+    transform: translateY(12px);
+    animation: fadeUp 0.7s ease-out 0.3s forwards;
+  }
+  .hero-meta span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* Sections */
+  section {
+    padding: 72px 0;
+    position: relative;
+  }
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 12px;
+  }
+  h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 32px;
+    line-height: 1.2;
+  }
+
+  /* About */
+  .about-text {
+    font-size: 1.05rem;
+    color: var(--text);
+    line-height: 1.75;
+    max-width: 680px;
+  }
+  .about-text p + p { margin-top: 18px; }
+  .about-text strong { color: var(--text); font-weight: 500; }
+
+  /* Skills */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+  }
+  .skill-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    transition: border-color 0.25s, transform 0.25s;
+  }
+  .skill-card:hover {
+    border-color: var(--border-strong);
+    transform: translateY(-2px);
+  }
+  .skill-card h3 {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 12px;
+  }
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .skill-tag {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    padding: 4px 10px;
+    background: rgba(124, 140, 255, 0.08);
+    border: 1px solid rgba(124, 140, 255, 0.18);
+    border-radius: 6px;
+    color: #b8c2ff;
+  }
+
+  /* Projects */
+  .projects-grid {
+    display: grid;
+    gap: 20px;
+  }
+  .project-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px;
+    transition: border-color 0.25s, background 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .project-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--gradient-2);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+    mask: linear-gradient(180deg, rgba(0,0,0,0.04), transparent 40%);
+    -webkit-mask: linear-gradient(180deg, rgba(0,0,0,0.04), transparent 40%);
+  }
+  .project-card:hover {
+    border-color: var(--border-strong);
+    background: rgba(255, 255, 255, 0.04);
+  }
+  .project-card:hover::before { opacity: 0.6; }
+  .project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .project-card h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .project-card .meta {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+  .project-card p {
+    color: var(--text-muted);
+    margin-bottom: 16px;
+    line-height: 1.7;
+  }
+  .project-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+  .project-links {
+    display: flex;
+    gap: 16px;
+    font-size: 14px;
+  }
+  .project-links a {
+    color: var(--accent);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.2s;
+  }
+  .project-links a:hover { color: var(--accent-2); }
+  .project-links a svg { width: 14px; height: 14px; }
+
+  /* Timeline */
+  .timeline {
+    position: relative;
+    padding-left: 28px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 8px;
+    bottom: 8px;
+    width: 1px;
+    background: linear-gradient(180deg, var(--border-strong), var(--border), transparent);
+  }
+  .timeline-item {
+    position: relative;
+    padding-bottom: 36px;
+  }
+  .timeline-item:last-child { padding-bottom: 0; }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -25px;
+    top: 6px;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--accent);
+    box-shadow: 0 0 0 4px rgba(124, 140, 255, 0.1);
+  }
+  .timeline-item.current::before {
+    background: var(--accent);
+    box-shadow: 0 0 0 4px rgba(124, 140, 255, 0.2), 0 0 12px var(--accent);
+  }
+  .timeline-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+  .timeline-item h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+  .timeline-item .company {
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .timeline-item .dates {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+  .timeline-item .location {
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-bottom: 10px;
+  }
+  .timeline-item p {
+    color: var(--text-muted);
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  /* Contact */
+  .contact-section {
+    padding: 80px 0 100px;
+    text-align: center;
+  }
+  .contact-section h2 { margin-bottom: 16px; }
+  .contact-section .lede {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    max-width: 520px;
+    margin: 0 auto 36px;
+    line-height: 1.7;
+  }
+  .contact-links {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .contact-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 22px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-strong);
+    border-radius: 10px;
+    color: var(--text);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: border-color 0.2s, background 0.2s, transform 0.2s;
+  }
+  .contact-link:hover {
+    border-color: var(--accent);
+    background: rgba(124, 140, 255, 0.08);
+    transform: translateY(-1px);
+  }
+  .contact-link svg { width: 16px; height: 16px; }
+
+  /* Footer */
+  footer {
+    padding: 32px 0;
+    border-top: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--text-dim);
+    text-align: center;
+    font-family: var(--font-mono);
+  }
+
+  /* Animations */
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (max-width: 600px) {
+    .nav-links { gap: 18px; }
+    .nav-links a { font-size: 13px; }
+    section { padding: 56px 0; }
+    .hero { padding: 72px 0 56px; }
+    .timeline { padding-left: 24px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="container">
+    <a href="#" class="nav-logo">andrew<span class="accent">.weng</span></a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <h1>research code<br><span class="gradient">production ready</span></h1>
+    <p class="tagline">
+      I'm Andrew Weng — a senior software engineer and hands-on software architect specializing in Python-based ML infrastructure. I help research teams translate experimental evaluation methods into robust, production-ready software.
+    </p>
+    <div class="hero-meta">
+      <span>📍 Seattle, WA</span>
+      <span>💼 Senior SWE @ ARiA</span>
+      <span>🐍 Python · ML · Pipelines</span>
+    </div>
+  </div>
+</header>
+
+<section id="about" class="reveal">
+  <div class="container">
+    <div class="section-label">About</div>
+    <h2>What I do</h2>
+    <div class="about-text">
+      <p>
+        For the past two years I've served as the primary software engineer behind <strong>DataEval</strong>, designing and implementing core frameworks for dataset evaluation, data-quality analysis, and model-diagnostic workflows. The work centers on building clean, maintainable, reproducible ML systems — modular Python pipelines, strict type-safety layers, CI/CD automation, DevSecOps integration, and contributor-friendly documentation.
+      </p>
+      <p>
+        Before pivoting into Python and ML, I spent <strong>over 16 years at Microsoft</strong> on the Outlook and Office teams — building automation frameworks, full-stack features in C++ and C#, cross-platform API projections, telemetry systems, and the build and release pipelines that hold them all together. That long stretch taught me how shipping software actually works at scale, and a lot of what I do now is bringing those instincts to the ML world.
+      </p>
+      <p>
+        I bring a blend of deep implementation skill, architectural clarity, and a strong focus on correctness. I'm at my best in the messy middle — between a research prototype and a thing that runs reliably in someone else's pipeline. Pipelines, evaluation, dependency hygiene, the unglamorous infrastructure work that determines whether a project succeeds or quietly rots. That's the work I care about.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section id="skills" class="reveal">
+  <div class="container">
+    <div class="section-label">Toolkit</div>
+    <h2>Skills &amp; tech</h2>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <h3>Languages</h3>
+        <div class="skill-tags">
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">TypeScript</span>
+          <span class="skill-tag">C#</span>
+          <span class="skill-tag">C++</span>
+          <span class="skill-tag">Rust</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h3>ML &amp; data</h3>
+        <div class="skill-tags">
+          <span class="skill-tag">PyTorch</span>
+          <span class="skill-tag">ONNX</span>
+          <span class="skill-tag">numpy</span>
+          <span class="skill-tag">MAITE</span>
+          <span class="skill-tag">HuggingFace</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h3>Infrastructure</h3>
+        <div class="skill-tags">
+          <span class="skill-tag">Kubernetes / K3s</span>
+          <span class="skill-tag">Docker</span>
+          <span class="skill-tag">Terraform</span>
+          <span class="skill-tag">Ansible</span>
+          <span class="skill-tag">Longhorn</span>
+          <span class="skill-tag">CI/CD</span>
+          <span class="skill-tag">DevSecOps</span>
+          <span class="skill-tag">Linux</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h3>ML serving &amp; ops</h3>
+        <div class="skill-tags">
+          <span class="skill-tag">vLLM</span>
+          <span class="skill-tag">LiteLLM</span>
+          <span class="skill-tag">RAG</span>
+          <span class="skill-tag">Open-weight LLMs</span>
+          <span class="skill-tag">Redis</span>
+          <span class="skill-tag">Prometheus</span>
+          <span class="skill-tag">Grafana</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h3>Tooling &amp; build</h3>
+        <div class="skill-tags">
+          <span class="skill-tag">Poetry</span>
+          <span class="skill-tag">uv</span>
+          <span class="skill-tag">PyO3 / maturin</span>
+          <span class="skill-tag">Sphinx</span>
+          <span class="skill-tag">Azure DevOps</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects" class="reveal">
+  <div class="container">
+    <div class="section-label">Featured work</div>
+    <h2>Projects</h2>
+    <div class="projects-grid">
+
+      <article class="project-card">
+        <div class="project-header">
+          <h3>DataEval</h3>
+          <span class="meta">Lead engineer · Open source</span>
+        </div>
+        <p>
+          A Python library for analyzing data quality and its impact on ML model performance — covering bias, coverage, drift, divergence metrics, and outlier detection across classification and object-detection workflows. Funded by the DoD's Chief Digital and AI Office (CDAO), shipped on PyPI, and built on the MAITE protocol for interoperability with the broader T&amp;E ecosystem.
+        </p>
+        <p>
+          I own the modular evaluation pipelines, the CI/CD and dependency story (including the Python 3.14 modernization), the Sphinx documentation and contributor guides, and the architectural standards that turned a research codebase into reliable infrastructure. I also lead several adjacent projects in the <a href="https://github.com/aria-ml/" target="_blank" rel="noopener" style="color: var(--accent); text-decoration: none;">aria-ml ecosystem</a>.
+        </p>
+        <p>
+          One of those is <strong>DataEval Flow</strong> — a YAML-configurable orchestration layer that wraps DataEval for production use. GPU and CPU container builds, headless execution for CI/CD, and a Textual-based TUI for interactive config and result review. Schemas are auto-discovered from torchvision transforms, DataEval selection classes, and workflow types, so the surface stays in sync with the library underneath.
+        </p>
+        <div class="project-stack">
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">PyTorch</span>
+          <span class="skill-tag">ONNX</span>
+          <span class="skill-tag">numpy</span>
+          <span class="skill-tag">Polars</span>
+          <span class="skill-tag">MAITE</span>
+          <span class="skill-tag">Pydantic</span>
+          <span class="skill-tag">Textual</span>
+          <span class="skill-tag">Docker</span>
+          <span class="skill-tag">uv / Poetry</span>
+          <span class="skill-tag">Sphinx</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/aria-ml/dataeval" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.7 1.6.2 2.8.1 3.2.7.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.2.9 2.3v3.4c0 .3.1.7.8.6A12 12 0 0 0 12 .3"/></svg>
+            dataeval
+          </a>
+          <a href="https://github.com/aria-ml/dataeval-flow" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.7 1.6.2 2.8.1 3.2.7.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.2.9 2.3v3.4c0 .3.1.7.8.6A12 12 0 0 0 12 .3"/></svg>
+            dataeval-flow
+          </a>
+          <a href="https://dataeval.readthedocs.io" target="_blank" rel="noopener">→ Documentation</a>
+          <a href="https://pypi.org/project/dataeval/" target="_blank" rel="noopener">→ PyPI</a>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <div class="project-header">
+          <h3>ATLAS — Secure agentic AI platform</h3>
+          <span class="meta">Architect · Internal</span>
+        </div>
+        <p>
+          A self-hosted code-assist platform built around open-source models and weights, with retrieval-augmented generation and persistent memory for long-running agentic workflows. Designed to operate in <strong>CMMC 2.0-compliant environments</strong> and support <strong>air-gapped deployment</strong> for secure compute. Inference is served through vLLM behind a LiteLLM gateway, deployed on a multi-node Kubernetes (K3s) topology that separates compute from control plane.
+        </p>
+        <p>
+          Provisioning is fully declarative — OpenTofu / Terraform for infrastructure, Ansible for configuration — with telemetry, dashboards, and monitoring wired in from day one. The goal is a code-assist stack that secure teams can actually own: open weights, observable behavior, and no third-party dependency for the things that matter.
+        </p>
+        <div class="project-stack">
+          <span class="skill-tag">vLLM</span>
+          <span class="skill-tag">LiteLLM</span>
+          <span class="skill-tag">Kubernetes / K3s</span>
+          <span class="skill-tag">Terraform</span>
+          <span class="skill-tag">Ansible</span>
+          <span class="skill-tag">Longhorn</span>
+          <span class="skill-tag">Redis</span>
+          <span class="skill-tag">Prometheus</span>
+          <span class="skill-tag">Grafana</span>
+          <span class="skill-tag">RAG</span>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section id="experience" class="reveal">
+  <div class="container">
+    <div class="section-label">Career</div>
+    <h2>Experience</h2>
+    <div class="timeline">
+
+      <div class="timeline-item current">
+        <div class="timeline-header">
+          <h3>Senior Software Engineer · <span class="company">ARiA</span></h3>
+          <span class="dates">Jun 2023 — Present</span>
+        </div>
+        <div class="location">Seattle, WA · On-site</div>
+        <p>
+          Lead software engineer for the DataEval ecosystem. Built core infrastructure for dataset evaluation, data-quality analysis, and model-diagnostic workflows — including modular pipelines for embeddings, clustering, bias and coverage analysis, divergence metrics, and verification. Drove CI/CD, DevSecOps integration, dependency management, and the Python 3.14 modernization. Authored major portions of the Sphinx documentation, contributor guides, and architectural standards. Partnered with research teams to convert experimental evaluation methods into reliable, production-ready software.
+        </p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-header">
+          <h3>Senior Software Engineer · <span class="company">Microsoft</span></h3>
+          <span class="dates">Aug 2014 — Dec 2022</span>
+        </div>
+        <div class="location">Redmond, WA · On-site</div>
+        <p>
+          Stood up a modern UI-driven automation framework with a small cross-team agile feature crew. Developed full-stack features in the UI (C++/CX/XAML) and engine (C++) consuming Exchange APIs, and contributed to Java/Kotlin and Objective-C/Swift API projections consumed by Outlook Mobile and Outlook Mac partners. Improved code-generation tools using T4 templates, sped up the test execution suite, and built Azure Data Explorer dashboards to identify and prioritize issues. Helped move engineering systems from legacy source control to Git and made build, publish, and delivery pipelines Executive Order compliant — alongside general improvements to build turnaround, maintainability, and portability.
+        </p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-header">
+          <h3>Software Development Engineer in Test · <span class="company">Microsoft</span></h3>
+          <span class="dates">Aug 2006 — Jul 2014</span>
+        </div>
+        <div class="location">Redmond, WA · On-site</div>
+        <p>
+          Built tooling and scripts for app deployment on desktop and mobile devices, authored automation coverage, and led testing efforts and best practices for touch input and print output. Drove cross-feature test plans across partner crews, standardized practices against hardware and operating systems, and built dashboards to drive bug goals across the team. Coordinated weekly and monthly deliverables and helped set the bar for quality across feature areas.
+        </p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-header">
+          <h3>Actuarial Intern · <span class="company">The Segal Company</span></h3>
+          <span class="dates">May 2004 — Jun 2006</span>
+        </div>
+        <div class="location">Glendale, CA · On-site</div>
+        <p>
+          Used mortality tables to calculate and verify benefits for client beneficiaries, developed tools to automate parts of the quarterly actuarial reports, and reviewed those reports for accuracy and consistency.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="contact-section reveal">
+  <div class="container">
+    <div class="section-label">Get in touch</div>
+    <h2>Let's talk shop.</h2>
+    <p class="lede">
+      Always happy to chat about ML infrastructure, evaluation tooling, the unglamorous bits of pipelines, or anything in that neighborhood.
+    </p>
+    <div class="contact-links">
+      <a class="contact-link" href="mailto:a@weng.dev">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+        a@weng.dev
+      </a>
+      <a class="contact-link" href="https://www.linkedin.com/in/andweng/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 2h-17A1.5 1.5 0 0 0 2 3.5v17A1.5 1.5 0 0 0 3.5 22h17a1.5 1.5 0 0 0 1.5-1.5v-17A1.5 1.5 0 0 0 20.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 1 1 8.3 6.5a1.78 1.78 0 0 1-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0 0 13 14.19a.66.66 0 0 0 0 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 0 1 2.7-1.4c1.55 0 3.36.86 3.36 3.66z"/></svg>
+        LinkedIn
+      </a>
+      <a class="contact-link" href="https://github.com/andweng" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.7 1.6.2 2.8.1 3.2.7.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.2.9 2.3v3.4c0 .3.1.7.8.6A12 12 0 0 0 12 .3"/></svg>
+        GitHub
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    © <span id="year"></span> Andrew Weng
+  </div>
+</footer>
+
+<script>
+  // Scroll-triggered reveal
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Footer year
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Subtle parallax on hero gradient (only if motion is allowed)
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduceMotion) {
+    let raf;
+    document.addEventListener('mousemove', (e) => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        const x = (e.clientX / window.innerWidth - 0.5) * 12;
+        const y = (e.clientY / window.innerHeight - 0.5) * 12;
+        document.body.style.setProperty('background-position', `${x}px ${y}px`);
+        raf = null;
+      });
+    });
+  }
+</script>
+
+</body>
+</html>
