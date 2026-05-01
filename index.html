@@ -23,9 +23,9 @@
     --accent-3: #5fc3e4;
     --gradient-1: linear-gradient(135deg, #7c8cff 0%, #a07cff 50%, #ff7cb8 100%);
     --gradient-2: linear-gradient(135deg, #5fc3e4 0%, #7c8cff 100%);
-    --gradient-bg: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(124, 140, 255, 0.18), transparent),
-                   radial-gradient(ellipse 60% 50% at 80% 30%, rgba(160, 124, 255, 0.12), transparent),
-                   radial-gradient(ellipse 60% 50% at 20% 60%, rgba(95, 195, 228, 0.08), transparent);
+    --gradient-bg: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(124, 140, 255, 0.25), transparent),
+                   radial-gradient(ellipse 60% 50% at 80% 30%, rgba(160, 124, 255, 0.17), transparent),
+                   radial-gradient(ellipse 60% 50% at 20% 60%, rgba(95, 195, 228, 0.12), transparent);
     --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
     --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
   }
@@ -47,10 +47,18 @@
   body::before {
     content: '';
     position: fixed;
-    inset: 0;
+    inset: -10%;
     background: var(--gradient-bg);
     pointer-events: none;
     z-index: 0;
+    animation: drift 28s ease-in-out infinite;
+  }
+
+  @keyframes drift {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25%      { transform: translate(4%, -3%) scale(1.08); }
+    50%      { transform: translate(-3%, 3%) scale(1.05); }
+    75%      { transform: translate(2%, 4%) scale(1.1); }
   }
 
   .container {
@@ -193,7 +201,25 @@
     border-radius: 12px;
     padding: 20px;
     transition: border-color 0.25s, transform 0.25s;
+    position: relative;
+    overflow: hidden;
   }
+  .skill-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+      300px circle at var(--mx, 50%) var(--my, 50%),
+      rgba(124, 140, 255, 0.08),
+      transparent 60%
+    );
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+  .skill-card:hover::after { opacity: 1; }
+  .skill-card > * { position: relative; z-index: 1; }
   .skill-card:hover {
     border-color: var(--border-strong);
     transform: translateY(-2px);
@@ -235,22 +261,26 @@
     position: relative;
     overflow: hidden;
   }
-  .project-card::before {
+  .project-card::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: var(--gradient-2);
+    border-radius: inherit;
+    background: radial-gradient(
+      400px circle at var(--mx, 50%) var(--my, 50%),
+      rgba(124, 140, 255, 0.10),
+      transparent 60%
+    );
     opacity: 0;
     transition: opacity 0.3s;
     pointer-events: none;
-    mask: linear-gradient(180deg, rgba(0,0,0,0.04), transparent 40%);
-    -webkit-mask: linear-gradient(180deg, rgba(0,0,0,0.04), transparent 40%);
   }
   .project-card:hover {
     border-color: var(--border-strong);
     background: rgba(255, 255, 255, 0.04);
   }
-  .project-card:hover::before { opacity: 0.6; }
+  .project-card:hover::after { opacity: 1; }
+  .project-card > * { position: relative; z-index: 1; }
   .project-header {
     display: flex;
     justify-content: space-between;
@@ -583,7 +613,7 @@
           <span class="skill-tag">Pydantic</span>
           <span class="skill-tag">Textual</span>
           <span class="skill-tag">Docker</span>
-          <span class="skill-tag">uv / Poetry</span>
+          <span class="skill-tag">uv</span>
           <span class="skill-tag">Sphinx</span>
         </div>
         <div class="project-links">
@@ -614,14 +644,13 @@
         <div class="project-stack">
           <span class="skill-tag">vLLM</span>
           <span class="skill-tag">LiteLLM</span>
-          <span class="skill-tag">Kubernetes / K3s</span>
+          <span class="skill-tag">Kubernetes</span>
           <span class="skill-tag">Terraform</span>
           <span class="skill-tag">Ansible</span>
           <span class="skill-tag">Longhorn</span>
           <span class="skill-tag">Redis</span>
           <span class="skill-tag">Prometheus</span>
           <span class="skill-tag">Grafana</span>
-          <span class="skill-tag">RAG</span>
         </div>
       </article>
 
@@ -728,17 +757,16 @@
   // Footer year
   document.getElementById('year').textContent = new Date().getFullYear();
 
-  // Subtle parallax on hero gradient (only if motion is allowed)
+  // Cursor spotlight on cards
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!reduceMotion) {
-    let raf;
-    document.addEventListener('mousemove', (e) => {
-      if (raf) return;
-      raf = requestAnimationFrame(() => {
-        const x = (e.clientX / window.innerWidth - 0.5) * 12;
-        const y = (e.clientY / window.innerHeight - 0.5) * 12;
-        document.body.style.setProperty('background-position', `${x}px ${y}px`);
-        raf = null;
+  if (!reduceMotion && window.matchMedia('(hover: hover)').matches) {
+    document.querySelectorAll('.project-card, .skill-card').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        card.style.setProperty('--mx', x + '%');
+        card.style.setProperty('--my', y + '%');
       });
     });
   }
